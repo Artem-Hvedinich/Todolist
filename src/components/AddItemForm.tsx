@@ -3,13 +3,12 @@ import TextField from '@material-ui/core/TextField';
 import {AddBox} from '@material-ui/icons';
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 
-
 type AddItemFormPropsType = {
     addItem: (title: string) => void
+    disabled?: boolean
 }
 
 export const AddItemForm = React.memo(function (props: AddItemFormPropsType) {
-    console.log('AddItemForm called')
 
     let [title, setTitle] = useState('')
     let [error, setError] = useState<string | null>(null)
@@ -45,7 +44,7 @@ export const AddItemForm = React.memo(function (props: AddItemFormPropsType) {
                    label="Title"
                    helperText={error}
         />
-        <IconButton color="primary" onClick={addItem}>
+        <IconButton color="primary" onClick={addItem} disabled={props.disabled}>
             <AddBox/>
         </IconButton>
     </div>
