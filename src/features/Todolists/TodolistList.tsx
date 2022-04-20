@@ -14,15 +14,24 @@ import {Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "../../components/AddItemForm";
 import {Todolist} from "./Todolist/Todolist";
 import {TasksStateType} from "../../App";
+import {Navigate} from "react-router-dom";
 
-export const TodolistList = () => {
-    useEffect(() => {
-        dispatch(fetchTodolistsTC())
-    }, [])
+type PropsType = {
+    demo: boolean
+}
+export const TodolistList: React.FC<PropsType> = ({demo = false}) => {
 
     const todolists = useSelector<AppRootStateType, Array<TodolistDomainType>>(state => state.todolists)
     const tasks = useSelector<AppRootStateType, TasksStateType>(state => state.tasks)
+    const isLoggedIn = useSelector<AppRootStateType, boolean>(state => state.auth.isLoggedIn)
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (demo || !isLoggedIn) {
+            return
+        }
+        dispatch(fetchTodolistsTC())
+    }, [])
 
     const removeTask = useCallback((id: string, todolistId: string) => dispatch(removeTaskTC(id, todolistId)), [])
     const addTask = useCallback((title: string, todolistId: string) => dispatch(addTaskTC(title, todolistId)), [dispatch])
@@ -34,6 +43,9 @@ export const TodolistList = () => {
     const changeTodolistTitle = useCallback((id: string, title: string) => dispatch(changeTodolistTitleTC(id, title)), [])
     const addTodolist = useCallback((title: string) => dispatch(addTodolistTC(title)), [dispatch])
 
+    if (!isLoggedIn) {
+        return <Navigate to={'/login'}/>
+    }
     return <>
         <Grid container style={{padding: '20px'}}>
             <AddItemForm addItem={addTodolist}/>

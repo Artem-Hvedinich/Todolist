@@ -1,6 +1,6 @@
 import {Dispatch} from 'redux';
 import {ResponseType} from '../api/todolists-api';
-import {setAppErrorType, setAppStatus, setAppStatusType} from '../state/app-reducer';
+import {setAppError, setAppErrorType, setAppStatus, setAppStatusType} from '../state/app-reducer';
 
 // generic function
 export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: ErrorUtilsDispatchType) => {
@@ -18,7 +18,3 @@ export const handleServerNetworkError = (error: { message: string }, dispatch: E
 }
 
 type ErrorUtilsDispatchType = Dispatch<setAppErrorType | setAppStatusType>
-
-function setAppError(arg0: string): any {
-    throw new Error('Function not implemented.');
-}
