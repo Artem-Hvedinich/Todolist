@@ -5,16 +5,16 @@ import {setAppError, setAppErrorType, setAppStatus, setAppStatusType} from '../s
 // generic function
 export const handleServerAppError = <T>(data: ResponseType<T>, dispatch: ErrorUtilsDispatchType) => {
     if (data.messages.length) {
-        dispatch(setAppError(data.messages[0]))
+        dispatch(setAppError({error: data.messages[0]}))
     } else {
-        dispatch(setAppError('Some error occurred'))
+        dispatch(setAppError({error: 'Some error occurred'}))
     }
-    dispatch(setAppStatus('failed'))
+    dispatch(setAppStatus({status: 'loading'}))
 }
 
 export const handleServerNetworkError = (error: { message: string }, dispatch: ErrorUtilsDispatchType) => {
-    dispatch(setAppError(error.message))
-    dispatch(setAppStatus('failed'))
+    dispatch(setAppError({error: error.message}))
+    dispatch(setAppStatus({status: 'failed'}))
 }
 
 type ErrorUtilsDispatchType = Dispatch<setAppErrorType | setAppStatusType>
